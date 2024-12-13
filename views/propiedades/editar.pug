@@ -9,10 +9,29 @@ block contenido
             span.font-normal Raíces  
         h2.text-center.text-2xl.font-extrabold= pagina
 
-        if errores 
-            div(class="max-w-md mx-auto my-10")
-                each error in errores
-                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+        if errors
+            div(class="max-w-md mx-auto my-6 space-y-3")
+                each error, index in errors
+                    div(
+                        id=`alert-${index}`
+                        class="flex items-center p-3 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 transition ease-in-out duration-500 transform opacity-100 scale-100 shadow-sm"
+                    )
+                        svg(class="w-5 h-5 text-red-600 mr-3", xmlns="http://www.w3.org/2000/svg", fill="none", viewBox="0 0 24 24", stroke="currentColor", "stroke-width"="2")
+                            path("stroke-linecap"="round", "stroke-linejoin"="round", d="M6 18L18 6M6 6l12 12")
+                        p.text-sm.flex-1= error.msg
+                        button(
+                            class="ml-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+                            onclick=`document.getElementById('alert-${index}').classList.add('opacity-0', 'scale-90'); setTimeout(() => document.getElementById('alert-${index}').remove(), 500)`
+                        ) 
+                            | ×
+                    script.
+                        setTimeout(() => {
+                            const alert = document.getElementById('alert-${index}');
+                            if (alert) {
+                                alert.classList.add('opacity-0', 'scale-90');
+                                setTimeout(() => alert.remove(), 500);
+                            }
+                        }, 5000);
 
 
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
@@ -83,7 +102,7 @@ block contenido
                         input(type="hidden" name="lng" id="lng" value= datos.lng ? datos.lng : '')
 
 
-                    input(class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Guardar Cambios")    
+                    input(class="w-full py-3 bg-babyblue hover:darkblue rounded text-white font-bold uppercase cursor-pointer" type="submit" value="Guardar Cambios")    
 block scripts 
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
     script(src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js")
